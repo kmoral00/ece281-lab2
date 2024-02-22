@@ -33,12 +33,55 @@ use IEEE.STD_LOGIC_1164.ALL;
 
 entity sevenSegDecoder is
     Port ( i_D : in STD_LOGIC_VECTOR (3 downto 0);
-           o_S : out STD_LOGIC_VECTOR (7 downto 0));
+           o_S : out STD_LOGIC_VECTOR (6 downto 0));
+           
 end sevenSegDecoder;
 
 architecture Behavioral of sevenSegDecoder is
+signal Sa : std_logic;
+signal Sb : std_logic;
+signal Sc : std_logic;
+signal Sd : std_logic;
+signal Se : std_logic;
+signal Sf : std_logic;
+signal Sg : std_logic;
+
 
 begin
+Sa <= '1' when ( (i_D = x"1") or
+                 (i_D = x"4") or
+                 (i_D = x"B") or
+                 (i_D = x"C") or
+                 (i_D = x"D") ) else '0';
+                 
 
+Sb <= '1' when ( (i_D = x"5") or
+                 (i_D = x"6") or
+                 (i_D = x"B") or 
+                 (i_D = x"C") or
+                 (i_D = x"E") or
+                 (i_D = x"F") ) else '0';
+
+Sc <= ( i_D(3) and i_D(2) and i_D(1) )
+ or ( i_D(3) and i_D(2) and not i_D(0) )
+ or ( not i_D(3) and not i_D(2) and i_D(1) and not i_D(0) );
+ 
+ Sd <= ( i_D(1) and i_D(0) and i_D(2) ) 
+ or ( not i_D(1) and i_D(0) and i_D(2) ) 
+ or ( i_D(1) and not i_D(0) and i_D(3) and not i_D(2) )
+ or ( not i_D(1) and not i_D(0) and not i_D(3) and i_D(2) );
+ 
+ Se <= ( i_D(0) and not i_D(3) )
+ or (not i_D(1) and i_D(0) and not i_D(2) )
+ or ( not i_D(3) and i_D(2) and not i_D(1) );
+ 
+ Sf <= ( i_D(3) and i_D(2) and not i_D(1) )
+ or (not i_D(3) and not i_D(2) and i_D(0) )
+ or (i_D(1) and i_D(0) and not i_D(3) )
+ or (not i_D(3) and not i_D(2) and i_D(1) );
+ 
+ Sg <= ( not i_D(3) and not i_D(2) and not i_D(1) )
+ or (i_D(1) and i_D(0) and not i_D(3) and i_D(2) );
+ 
 
 end Behavioral;
