@@ -32,8 +32,10 @@ use IEEE.STD_LOGIC_1164.ALL;
 --use UNISIM.VComponents.all;
 
 entity sevenSegDecoder is
-    Port ( i_D : in STD_LOGIC_VECTOR (3 downto 0);
-           o_S : out STD_LOGIC_VECTOR (6 downto 0));
+    Port ( 
+    i_D : in STD_LOGIC_VECTOR (3 downto 0);
+    o_S : out STD_LOGIC_VECTOR (6 downto 0)
+          );
            
 end sevenSegDecoder;
 
@@ -54,6 +56,7 @@ Sa <= '1' when ( (i_D = x"1") or
                  (i_D = x"C") or
                  (i_D = x"D") ) else '0';
                  
+o_S(0)<=Sa;          
 
 Sb <= '1' when ( (i_D = x"5") or
                  (i_D = x"6") or
@@ -61,27 +64,32 @@ Sb <= '1' when ( (i_D = x"5") or
                  (i_D = x"C") or
                  (i_D = x"E") or
                  (i_D = x"F") ) else '0';
+o_S(1)<=Sb;
 
 Sc <= ( i_D(3) and i_D(2) and i_D(1) )
  or ( i_D(3) and i_D(2) and not i_D(0) )
  or ( not i_D(3) and not i_D(2) and i_D(1) and not i_D(0) );
+ o_S(2)<=Sc;
  
  Sd <= ( i_D(1) and i_D(0) and i_D(2) ) 
- or ( not i_D(1) and i_D(0) and i_D(2) ) 
+ or ( not i_D(1) and i_D(0) and not i_D(2) ) 
  or ( i_D(1) and not i_D(0) and i_D(3) and not i_D(2) )
  or ( not i_D(1) and not i_D(0) and not i_D(3) and i_D(2) );
+ o_S(3)<=Sd;
  
  Se <= ( i_D(0) and not i_D(3) )
  or (not i_D(1) and i_D(0) and not i_D(2) )
  or ( not i_D(3) and i_D(2) and not i_D(1) );
+ o_S(4)<=Se;
  
  Sf <= ( i_D(3) and i_D(2) and not i_D(1) )
  or (not i_D(3) and not i_D(2) and i_D(0) )
  or (i_D(1) and i_D(0) and not i_D(3) )
  or (not i_D(3) and not i_D(2) and i_D(1) );
+ o_S(5)<=Sf;
  
  Sg <= ( not i_D(3) and not i_D(2) and not i_D(1) )
  or (i_D(1) and i_D(0) and not i_D(3) and i_D(2) );
- 
+o_S(6)<=Sg; 
 
 end Behavioral;
